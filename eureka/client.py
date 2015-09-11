@@ -142,10 +142,11 @@ class EurekaClient(object):
                 'secureVipAddr': self.secure_vip_address or '',
                 'status': initial_status,
                 'port': self.port,
-                'securePort': self.secure_port,
                 'dataCenterInfo': data_center_info
             }
         }
+        if self.secure_port: # or Eureka POST call crashes if no secure port
+            instance_data['instance']['securePort'] = self.secure_port
         success = False
         last_e = None
         for eureka_url in self.eureka_urls:
